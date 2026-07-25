@@ -1,0 +1,2 @@
+# 27860_2024-Hassan-Vehicle-Rental-Management-Information-System
+Hassan Vehicle Rental Management Information System (VRMIS) automates vehicle rental operations by allowing customers to search, reserve, rent, and return vehicles. It helps staff manage bookings, payments, vehicle records, and maintenance, improving efficiency, reducing paperwork, and providing accurate reports for better business management.
