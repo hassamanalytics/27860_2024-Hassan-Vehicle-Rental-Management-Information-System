@@ -1,0 +1,548 @@
+
+
+ BUSINESS PROCESS MODELING (MIS)
+
+Motor Vehicle Rental Management System
+
+1. System Scope
+
+System Name
+
+27860_2024 Hassan Vehicle Rental Management System
+
+## Purpose
+
+The system automates the process of renting vehicles by managing customers, vehicles, rentals, payments, vehicle returns, penalties, maintenance, users, and reports.
+
+## Included Modules
+
+* Customer Management
+* Vehicle Management
+* Rental Management
+* Payment Management
+* Return Record Management
+* Fine/Penalty Management
+* Maintenance Management
+* User Management
+* Reporting
+
+## Outside the System
+
+* Bank
+* Insurance Company
+* Government Transport Authority
+
+---
+
+# 2. Actors
+
+### Primary Actors
+
+* Customer
+* Receptionist
+* Cashier
+* Fleet Manager
+* System Administrator
+* Manager
+
+### External Actors
+
+* Bank
+* Insurance Company
+
+---
+
+# 3. Main Business Processes
+
+1. Register Customer
+2. Add Vehicle
+3. Search Vehicle
+4. Rent Vehicle
+5. Make Payment
+6. Return Vehicle
+7. Calculate Fine
+8. Schedule Maintenance
+9. Generate Reports
+10. Manage Users
+
+---
+
+# 4. UML Use Case Diagram
+
+```
+                                   +--------------------------------+
+                   | Vehicle Rental Management MIS |
+                   +--------------------------------+
+
+ Customer -------------------> (Register)
+
+ Customer -------------------> (Search Vehicle)
+
+ Customer -------------------> (Rent Vehicle)
+
+ Customer -------------------> (Return Vehicle)
+
+ Customer -------------------> (Make Payment)
+
+ Receptionist -------------> (Create Rental)
+
+ Cashier -------------------> (Receive Payment)
+
+ Fleet Manager -----------> (Maintain Vehicle)
+
+ Manager -----------------> (Generate Reports)
+
+ Administrator -----------> (Manage Users)
+```
+
+---
+
+# 5. BPMN Business Process
+
+```
+Start
+
+↓
+
+Customer Registration
+
+↓
+
+Search Available Vehicle
+
+↓
+
+Vehicle Available?
+
+ ├── No
+ │
+ │ Notify Customer
+ │
+ End
+
+ └── Yes
+
+↓
+
+Create Rental
+
+↓
+
+Generate Rental Agreement
+
+↓
+
+Customer Payment
+
+↓
+
+Payment Successful?
+
+ ├── No
+ │
+ Cancel Rental
+ │
+ End
+
+ └── Yes
+
+↓
+
+Vehicle Released
+
+↓
+
+Customer Uses Vehicle
+
+↓
+
+Return Vehicle
+
+↓
+
+Inspect Vehicle
+
+↓
+
+Damage Found?
+
+├── Yes
+
+↓
+
+Calculate Fine
+
+↓
+
+Receive Fine Payment
+
+↓
+
+Schedule Maintenance
+
+↓
+
+Generate Receipt
+
+↓
+
+End
+
+└── No
+
+↓
+
+Generate Receipt
+
+↓
+
+Update Vehicle Status
+
+↓
+
+End
+```
+
+---
+
+# 6. Swimlane Diagram
+
+```
+---------------------------------------------------------------
+Customer
+---------------------------------------------------------------
+Register
+Search Vehicle
+Confirm Rental
+Make Payment
+Use Vehicle
+Return Vehicle
+
+---------------------------------------------------------------
+Receptionist
+---------------------------------------------------------------
+Verify Customer
+Create Rental
+Issue Agreement
+
+---------------------------------------------------------------
+Cashier
+---------------------------------------------------------------
+Receive Payment
+Print Receipt
+
+---------------------------------------------------------------
+Fleet Manager
+---------------------------------------------------------------
+Release Vehicle
+Inspect Vehicle
+Schedule Maintenance
+
+---------------------------------------------------------------
+System
+---------------------------------------------------------------
+Check Vehicle
+Store Rental
+Update Payment
+Calculate Fine
+Update Return Record
+Generate Reports
+```
+
+---
+
+# 7. Activity Diagram
+
+```
+Start
+
+↓
+
+Register Customer
+
+↓
+
+Search Vehicle
+
+↓
+
+Available?
+
+No ----------------> End
+
+Yes
+
+↓
+
+Create Rental
+
+↓
+
+Payment
+
+↓
+
+Issue Vehicle
+
+↓
+
+Vehicle Returned
+
+↓
+
+Inspect Vehicle
+
+↓
+
+Damage?
+
+Yes
+
+↓
+
+Create Fine
+
+↓
+
+Maintenance
+
+↓
+
+Close Rental
+
+↓
+
+Generate Report
+
+↓
+
+End
+
+No
+
+↓
+
+Close Rental
+
+↓
+
+Generate Report
+
+↓
+
+End
+```
+
+---
+
+# 8. Sequence Diagram
+
+```
+Customer
+
+|
+
+Receptionist
+
+|
+
+System
+
+|
+
+Database
+
+|
+
+Cashier
+
+------------------------------------------------------
+
+Customer -> Receptionist
+Request Rental
+
+Receptionist -> System
+Check Vehicle
+
+System -> Database
+Retrieve Vehicle
+
+Database -> System
+Vehicle Available
+
+System -> Receptionist
+Confirmation
+
+Receptionist -> Customer
+Rental Agreement
+
+Customer -> Cashier
+Payment
+
+Cashier -> System
+Confirm Payment
+
+System -> Database
+Save Rental
+
+System -> Receptionist
+Vehicle Released
+
+Customer
+Uses Vehicle
+
+Customer -> Receptionist
+Return Vehicle
+
+Receptionist -> System
+Inspect Vehicle
+
+System -> Database
+Update Return
+
+System -> Customer
+Receipt
+```
+
+---
+
+# 9. Workflow Diagram
+
+
+Start
+
+↓
+
+Customer Registration
+
+↓
+
+Vehicle Search
+
+↓
+
+Vehicle Selection
+
+↓
+
+Rental Creation
+
+↓
+
+Payment
+
+↓
+
+Vehicle Pickup
+
+↓
+
+Vehicle Usage
+
+↓
+
+Vehicle Return
+
+↓
+
+Inspection
+
+↓
+
+Fine?
+
+No -----------------------> Close Rental
+
+Yes
+
+↓
+
+Penalty Payment
+
+↓
+
+Maintenance
+
+↓
+
+Close Rental
+
+↓
+
+Generate Reports
+
+↓
+
+End
+```
+
+---
+
+# 10. Business Workflow Using Your Tables
+
+This workflow directly matches your database tables.
+
+```
+Customer
+    │
+    ▼
+Vehicle
+    │
+    ▼
+Rental
+    │
+    ▼
+Payment
+    │
+    ▼
+Return_Record
+    │
+    ▼
+Fine_Penalty
+    │
+    ▼
+Maintenance
+    │
+    ▼
+Report
+```
+
+System users (Administrator, Receptionist, Manager) interact with all modules:
+
+```
+              User
+                │
+ ┌──────────────┼────────────────┐
+ │              │                │
+ ▼              ▼                ▼
+Customer     Vehicle        Rental
+                               │
+                               ▼
+                           Payment
+                               │
+                               ▼
+                        Return_Record
+                               │
+                               ▼
+                        Fine_Penalty
+                               │
+                               ▼
+                         Maintenance
+                               │
+                               ▼
+                             Report
+
+
+
+
+# 11. One-Page Explanation
+
+The **Motor Vehicle Rental Management System (MVRMS)** is designed to automate and streamline the complete vehicle rental process. The system begins when a customer registers and their information is stored in the **Customer** module. After registration, the customer searches for available vehicles managed in the **Vehicle** module. Once a suitable vehicle is selected, the receptionist creates a rental transaction in the **Rental** module, where rental details such as rental date, expected return date, vehicle, and customer information are recorded.
+
+Before the vehicle is released, the customer completes payment through the **Payment** module. The system verifies the payment and generates a receipt. Once payment is confirmed, the vehicle status changes from *Available* to *Rented*, and the customer is allowed to use the vehicle.
+
+When the customer returns the vehicle, the return details are stored in the **Return_Record** module. The fleet manager inspects the vehicle to determine whether it has been returned on time and in good condition. If the vehicle is damaged or returned late, the system automatically creates a record in the **Fine_Penalty** module to calculate the applicable penalty. After the fine is paid, or if no fine exists, the vehicle may be scheduled for servicing through the **Maintenance** module to ensure it is ready for future rentals.
+
+All activities performed within the system are managed by authenticated users through the **User** module, where administrators control access rights and permissions for receptionists, cashiers, fleet managers, and managers. Finally, the system compiles operational data from all modules into the **Report** module, enabling management to generate reports on customers, vehicle availability, rentals, payments, returns, penalties, maintenance history, and overall business performance. This integrated workflow improves operational efficiency, minimizes manual errors, enhances customer service, and provides accurate information for decision-making.
+
+-
